@@ -1,0 +1,351 @@
+*{
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	-webkit-tap-highlight-color:transparent;
+	margin:0;
+	padding:0;
+}
+html { font-family:"Helvetica Neue",Helvetica,"San Francisco",  Arial, sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-size: 16px;}
+body { margin: 0; font-size: 1rem; line-height: 1.5; color: #333; background-color: white;  overflow-x: hidden;-webkit-overflow-scrolling:touch;}
+
+.clearfix{
+	visibility:hidden;
+	display:block;
+	font-size:0;
+	content:" ";
+	clear:both;
+	height:0;
+	*zoom:1;
+}
+.flex{
+	display:-webkit-box;
+	display:-webkit-flex;
+	display:flex;
+	-webkit-box-align:center;
+	-webkit-align-items:center;
+	align-items:center;
+	-webkit-justify-content:center;
+	justify-content:center;
+	-webkit-box-pack:center;
+}
+
+.flex-end{-webkit-justify-content:flex-end;justify-content:flex-end;-webkit-box-pack: flex-end;}
+
+iframe{
+	display:none;
+}
+html,body{
+	text-align:center;
+	background-color:#ffffff;
+	font-weight: 300;
+}
+img{max-width: 100%; max-height: 100%;}
+
+.red{
+	color:#ff6060;
+}
+.g_loading{
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	z-index:999;
+	background:url("../img/ajax-loader.gif")no-repeat center center rgba(255,255,255,.5);
+	background-size: 25px 25px;
+}
+.g_alert{
+	max-width:260px;
+	text-align:center;
+	padding:10px;
+	color:#fff;
+	border-radius:5px;
+	background:rgba(0,0,0,0.8);
+	display:block;
+	position:fixed;
+	z-index:200;
+	bottom:40px;
+	left:50%;
+	font-size:0.8rem;
+}
+/***********************************************Common-style  End**************************************************/
+
+/***********************************************Main Begin***********************************************/
+.content{
+	position:relative;
+	height:100%;
+	width:100%;
+	font-size:16px;
+}
+.header-pic{
+	display:block;
+	height: 250px;
+ 	width:100%;
+	background: #e6e6e6;
+}
+section .goods{
+	height:70px;
+	width:100%;
+	background:#fff;
+	text-align:left;
+	padding: 10px 15px;
+}
+section .goods .name{
+	font-size:16px;
+}
+section .goods .exchange{
+	font-size:12px;
+	color:#969696;
+}
+section .goods .exchange .price-number {
+	font-size:18px;
+	color:#ff6060;
+}
+section .bar {
+	width: 100%;
+	height: 20px;
+	background: #f8f8f8;
+}
+
+section .description{
+	background:#fff;
+	padding: 20px 15px 90px 15px;
+	text-align:left;
+	line-height:20px;
+}
+section .description .title{
+	font-size:15px;
+	font-weight: bold;
+}
+
+section .description .item{
+	font-size:13px;
+	padding-top:10px;
+}
+
+/********************************Float  Begin***********************************/
+footer{
+	height:50px;
+	width:100%;
+	background:#f8f8f8;
+	text-align:left;
+	position:fixed;
+	bottom:0;
+	left:0;
+	z-index:200;
+}
+
+footer .exchange{
+	padding-left: 15px;
+	height: 100%;
+	line-height: 50px;
+	font-size:14px;
+	color:#969696;
+}
+
+footer .exchange .price-number{
+	font-size:18px;
+	color:#ff6060;
+}
+footer .exchange-btn{
+	height:30px;
+	width:90px;
+	border-radius:15px;
+	font-size:15px;
+	color:#fff;
+	text-align:center;
+	line-height:30px;
+	background:#ff6060;
+	position:absolute;
+	top:10px;
+	right:15px;
+}
+footer .exchange-btn-two{
+	height:40px;
+	width:120px;
+	border-radius:20px;
+	font-size:18px;
+	color:#fff;
+	text-align:center;
+	line-height:40px;
+	background:#ff6060;
+	position:absolute;
+	top:15px;
+	right:15px;
+}
+footer .exchange-piece{
+	display:none;
+	height:90px;
+	width:100%;
+	position:absolute;
+	top:-90px;
+	left:0;
+	background:#f8f8f8;
+}
+footer .exchange-piece .cancel{
+	height:25px;
+	width:25px;
+	background:url(../img/cancel01.png)no-repeat center center;
+	background-size:12px 12px;
+	position:absolute;
+	top:10px;
+	left:10px;
+}
+footer .exchange-piece .piece-font{
+	height:20px;
+	width:80px;
+	font-size:14px;
+	position:absolute;
+	top:20%;
+	left:50%;
+	margin-left:-40px;
+}
+footer .exchange-piece .piece-data{
+	height:30px;
+	width:160px;
+	position:absolute;
+	top:60%;
+	left:50%;
+	margin-left:-90px;
+}
+footer .exchange-piece .piece-data .reduce{
+	height:30px;
+	width:30px;
+	background:url(../img/reduce01.png)no-repeat center center;
+	background-size:20px 2px;
+	position:absolute;
+	top:-2px;
+	left:0;
+}
+footer .exchange-piece .piece-data .add{
+	height:30px;
+	width:30px;
+	background:url(../img/add01.png)no-repeat center center;
+	background-size:20px 20px;
+	position:absolute;
+	top:-2px;
+	right:0;
+}
+footer .exchange-piece .piece-data .piece-number{
+	height:25px;
+	width:80px;
+	background:#fff;
+	font-size:14px;
+	text-align:center;
+	line-height:25px;
+	position:absolute;
+	top:0;
+	right:25%;
+}
+/********************************Float  End***********************************/
+
+/********************************Confrim ticket  Begin***********************************/
+.mask{
+	display:none;
+	height:100%;
+	width:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	background:rgba(0,0,0,.7);
+	z-index:300;
+}
+.mask .select{
+	height:120px;
+	width:300px;
+	background:#fff;
+	border-radius:5px;
+	position:fixed;
+	top:32%;
+	left:50%;
+	margin-left:-150px;
+	z-index:300;
+}
+.mask .select .select-font{
+	height:80px;
+	width:100%;
+	font-size:16px;
+	line-height:80px;
+	text-align:center;
+	border-bottom:1px solid #f0f0f0;
+}
+.mask .select .select-cancel-btn{
+	height:40px;
+	width:50%;
+	font-size:16px;
+	position:absolute;
+	top:67%;
+	left:0;
+	color:#ff6060;
+	text-align:center;
+	line-height:40px;
+}
+.mask .select .select-confirm-btn{
+	height:40px;
+	width:50%;
+	font-size:16px;
+	position:absolute;
+	top:67%;
+	right:0;
+	color:#ff6060;
+	text-align:center;
+	line-height:40px;
+}
+.mask .select .line{
+	height:40px;
+	width:1px;
+	background:#f0f0f0;
+	position:absolute;
+	top:66%;
+	left:50%;
+}
+/********************************Confrim ticket  End***********************************/
+
+/********************************************Main End***************************************************/
+
+/**************************************Media_query Begin *********************************/
+@media screen and (max-width:375px){
+	
+	
+}
+
+@media screen and (max-width:320px){
+	section .goods .name {
+	    font-size: 14px;
+	}
+	section .goods .exchange {
+	    font-size: 12px;
+	}
+	section .goods .exchange .price-number {
+    	font-size: 16px;
+	}
+
+	section .description {
+		padding: 15px 15px 90px 15px;
+	}
+	section .description .title {
+	    font-size: 13px;
+	}
+	section .description .item {
+	    font-size: 11px;
+	}
+
+
+	footer .exchange {
+	    padding-left: 10px;
+	    font-size: 12px;
+	}
+	footer .exchange .price-number {
+	    font-size: 16px;
+	}
+	footer .exchange-btn {
+	    font-size: 14px;
+	}
+	.mask .select{
+		width:240px;
+		margin-left:-120px;
+	}
+}
+
+/**************************************Media_query End *********************************/

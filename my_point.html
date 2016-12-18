@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1.0"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta name="format-detection" content="telephone=no"/>
+	<meta name="format-detection" content="email=no"/>
+	<meta charset="UTF-8">
+	<title>我的马豆</title>
+	<link rel="stylesheet" href="css/my_point.css" type="text/css"/>
+</head>
+<body>
+<div class="content">
+	<header>
+		<div class="bg-foot"></div>
+		<div class="record">
+			<img src="img/record_icon.png" alt="" />
+			<span class="record-font">马豆记录</span>
+		</div>
+		<div class="pic"></div>
+		<div class="pic-font">可用马豆(个)</div>
+		<div class="point-number">0</div>
+	</header>
+	<section>
+		<p class="border"></p>
+		<p class="border-font">马豆换礼</p>
+	</section>
+	
+	<!--  加息券种类列表 -->
+	<footer>
+		<!--<div class="goods">
+			<img src="img/ticket_icon.png" alt="" />
+			<p class="title">马上理财加息券</p>
+			<p class="dec">
+				<span>需要马豆：</span>
+				<span class="number">300</span>
+				<span>个</span>
+			</p>
+			<div class="exchange">去兑换</div>
+		</div>-->
+	</footer>
+</div>
+
+<script type="text/javascript" src="js/zepto.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/md5.js"></script>
+<script type="text/javascript">
+	
+	var publicObj = {
+        isWeixin: isWeixin(),
+        phoneType: getOS(),
+        domainname: "http://" + location.hostname,
+        myPointUrl: publicApiHost + "/v2/api/web/point/myInfo",
+        goodsUrl: publicApiHost + "/v2/api/web/point/allGoods",
+        appVer: "1.0",
+        timestamp: new Date().getTime(),
+        deviceType: "mobile_web",
+        sessionKey: getUrlParameter("sessionKey")
+    };
+	
+	var _r = publicObj.timestamp + "msfy_mslc_20160526_w" + publicObj.appVer + publicObj.deviceType + "web" + publicObj.appVer;
+    publicObj.signature = hex_md5(_r);
+	
+	Zepto(function($){
+		
+		if (!publicObj.sessionKey) {
+            g_alert("请先登录");
+            return;
+        }
+		
+		//点击查看“马豆记录”
+		$(".content").on("click",".record", function () {
+           location.href = "./point_detail.html?sessionKey="+publicObj.sessionKey;
+        });
+		
+		var _params = {
+            appVer: publicObj.appVer,
+            deviceType: publicObj.deviceType,
+            timestamp: publicObj.timestamp,
+            signature: publicObj.signature,
+            deviceId: "wap",
+            osVer: getOS(),
+            sessionKey: publicObj.sessionKey,
+            pageSize: 50
+        };
+		
+		//获取“可用马豆”数量
+		g_loading();
+		$.ajax({
+			type:"GET",
+			url:publicObj.myPointUrl,  //"my_point.json"
+			data:_params,
+			dataType:'json',
+			timeout:30000,
+			success:function(data){
+				remove_loading();
+				
+				if(data.error == 0){
+					var point = data.data.point;
+					var description = data.data.description;
+					
+					$(".point-number").text(point);
+				}else{
+					g_alert("请求失败");
+				}
+			},
+			error:function(){
+				remove_loading();
+				g_alert("网络错误，请稍后再试！");
+			}
+		});
+		
+		//获取可售商品列表
+		$.ajax({
+			type:"GET",
+			url:publicObj.goodsUrl,		//"goodsAll.json"
+			data:_params,
+			dataType:"json",
+			timeout:30000,
+			success:function(data){
+				if(data.error == 0){
+					var list = data.data.goods;
+					if(list && list.length > 0){
+						appendGoods(list);
+					}
+				}
+			},
+			error:function(){
+				
+			}
+		});
+		
+		//点击商品
+		$(".content").on("click",".exchange",function(){
+			var id=$(this).parent().attr("goodsid");
+			location.href = "./goods_detail.html?isClient=1&goodsid="+id+"&sessionKey="+publicObj.sessionKey;
+		})
+		
+		function appendGoods(list){
+		
+            $.each(list, function (index, item) {
+				
+				var str = '<div class="goods" goodsid='+item.id+'>';
+					str += '<img src="'+item.icon+'"/>';
+					str += '<p class="title">'+item.title+'</p>';
+					str += '<p class="dec"><span>需要马豆：</span><span class="number">'+item.price+'</span><span>个</span></p>';
+					str += '<div class="exchange">去兑换</div>';
+					str += '</div>';
+				
+                $("footer").append(str);
+            })
+      	}
+		
+		//点击“立即赚取”
+//		$(".content").on("click",".earn",function(){
+//			location.href = "../client-interest/index.html?sessionKey="+publicObj.sessionKey;
+//		});
+
+	})
+	
+</script>
+	
+</body>
+</html>

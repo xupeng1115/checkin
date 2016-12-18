@@ -1,0 +1,29 @@
+{
+	"error":0,
+	"msg":"message",
+	"data":{
+		"goods":[
+					{
+				     "id":20,
+				     "icon":"img/ticket_icon.png",
+				     "title":"马上理财加息券",
+				     "price":300
+					},
+				     {
+					     "id":20,
+					     "icon":"img/ticket_icon.png",
+					     "title":"马上理财加息券",
+					     "price":300
+				     },
+				     {
+					     "id":20,
+					     "icon":"img/ticket_icon.png",
+					     "title":"马上理财加息券",
+					     "price":300
+				     }
+		]
+	}
+}
+
+
+

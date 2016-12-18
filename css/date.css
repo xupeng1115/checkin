@@ -1,0 +1,117 @@
+/***************************************Date Begiin********************************************/
+*{
+	margin:0;
+	padding:0;
+}
+html,body{
+	height:100%;
+	width:100%;
+	position:relative;
+	text-align:center;
+}
+.container{
+	height:100%;
+	width:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	background: rgba(0,0,0,0.5);
+	font-weight: 300;
+	font-family: simHei;
+}
+
+.number{font-size:18px;;color:#ff6060;}
+.cancel{background:url(../img/date_cancel01.png)no-repeat center center;background-size:100%;position:absolute;right:10px;top:10px;width:22px;height:22px;}
+
+.sign table{border-spacing:0;width:90.5%;background:#fff;border-radius:0 0 10px 10px;position:relative;margin:55px 15px 20px 15px;}
+.sign th,.sign td {text-align: center;line-height:41px;}
+.sign tr.fl-top{position:absolute;top:-55px;left:-15px;width:324px;background:#ffe0e0;}
+.sign th {font-size: 16px;color:#ff6060;background:#ffe0e0;padding-left:26px;}
+.sign td {color: #ff6060;vertical-align: middle;font-size:16px;border-top:1px solid #fff;border-radius:21px;}
+.sign .last{color: #ccc;}
+.sign .next{color: #ccc;}
+.sign .current{color:#ff6060;}
+.sign .continue-left{border-radius:21px 0 0 21px;background-color:#ff6060;color:white;}
+.sign .continue-right{border-radius:0 21px 21px 0;background-color:#ff6060;color:white;}
+.sign .continue{background-color:#ff6060;color:white;border-radius:0;}
+.sign .on {background-color:#ff6060;color:white;border-radius:21px;}
+
+.calendar_month_span {display: inline;height:20px;font-size: 18px;color: #656565;letter-spacing:0px;font-weight: 300;padding-top:20px;}
+.calendar_month_span .sign_font{font-size:18px;color:#656565;padding-top:15px;}
+.calendar_month_span .continue_font{font-size:11px;color:#ff6060;padding-top:5px; line-height: 12px;}
+.sign_succ_calendar_title {text-align: center;width:324px;background:#fff;border-radius:10px 10px 0 0;height:90px;}
+
+.sign_main {width: 324px;position:absolute;top:140px;left:50%;margin-left:-162px;background:#fff;border-radius:10px;z-index:1000;}
+/***************************************Date End********************************************/
+
+/***************************************Date media query begin********************************************/
+@media screen and (max-width:375px){
+	.sign_main{
+		width:300px;
+		margin-left:-150px;
+		top:80px;
+	}
+	.sign th,.sign td {
+		line-height:38px;
+	}
+	.sign th {
+	    padding-left: 23px;
+	}
+	.sign_succ_calendar_title{
+		width:300px;
+	}
+	.sign tr.fl-top {
+	    top: -50px;
+	    left: -14px;
+	    width: 300px;
+	}
+	.sign table {
+	    width: 90.5%;
+	    margin: 40px 15px 20px 14px;
+	}
+}
+
+@media screen and (max-width:320px){
+	.sign_main{
+		width: 280px;
+    	margin-left: -140px;
+   		top: 70px;
+	}
+	.sign th,.sign td {
+		line-height:35px;
+	}
+	.sign_succ_calendar_title{
+		width:280px;
+		height:75px;
+	}
+	.calendar_month_span .sign_font {
+	    font-size: 14px;
+	    padding-left:10px;
+	}
+	.number {
+	    font-size: 14px;
+	}
+	.calendar_month_span .continue_font {
+		height:30px;
+		width:280px;
+	}
+	.sign th {
+    	font-size: 14px;
+    	padding-left: 22px;
+	}
+	.sign tr.fl-top {
+		top: -45px;
+		left:-13px;	
+    	width: 280px;
+    }
+    .sign td {
+    	font-size:14px;
+    	border-radius:18px;
+    }
+    .sign table {
+	    width: 90%;
+	    margin: 40px 15px 20px 13px;
+	}
+}
+/***************************************Date media query End********************************************/
+

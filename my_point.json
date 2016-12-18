@@ -1,0 +1,9 @@
+{
+  "error": 0,
+  "msg":"message",
+  "data":{
+    "point":1258,
+    "checkedIn":false,
+    "description":"已经连续签到3天，再连续签到2天奖励10马豆"
+  }
+}

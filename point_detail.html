@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>马豆记录</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <style>
+        body {
+            background: #fafafa;
+        }
+
+        .nodata {
+            background: url("./img/icon_no_investment@2x.png") no-repeat center center;
+            background-size: 220px 120px;
+        }
+
+        .load-more {
+            width: 100%;
+            background: #ffffff;
+            height: 40px;
+            font-size: 0.8rem;
+            color: #888;
+            display: none;
+        }
+
+        .load-more-label {
+            height: 40px;
+            line-height: 40px
+        }
+
+        .detail-top {
+            width: 100%;
+            height: 44px;
+            background: #ffffff;
+            position: fixed;
+            top: 0;
+            z-index: 99;
+            border-bottom: 1px solid #e6e6e6;
+        }
+
+        .detail-top .tab {
+            font-size: 0.8rem;
+            color: #3c3c3c;
+            width: 50%;
+            height: 44px;
+            line-height: 44px;
+            text-align: center;
+        }
+
+        .detail-top .left {
+            float: left;
+        }
+
+        .detail-top .right {
+            float: right;
+        }
+
+        .detail-top .selected {
+            border-bottom: 2px solid #ff6060;
+            color: #ff6060;
+        }
+
+        .wrapper {
+            position: absolute;
+            left: 0;
+            top: 44px;
+            bottom: 0px;
+            width: 100%;
+            margin-top: 20px;
+            border-top: 1px solid #e6e6e6;
+            border-bottom: 1px solid #e6e6e6;
+            background: #ffffff;
+        }
+
+        .item {
+            border-bottom: 1px solid #e6e6e6;
+            width: 97%;
+            height: 65px;
+            background: #ffffff;
+            margin-left: 3%;
+        }
+
+        .item .left {
+            float: left;
+            text-align: left;
+            display: inline-block;
+            padding-top: 10px;
+        }
+
+        .item .left .title {
+            font-size: 1rem;
+            color: #323232;
+            margin-bottom: 3px;
+        }
+
+        .item .left .des {
+            font-size: 0.8rem;
+            color: #aaaaaa;
+        }
+
+        .item .right {
+            text-align: right;
+            float: right;
+            line-height: 65px;
+            height: 65px;
+            padding-right: 20px;
+            display: inline-block;
+        }
+
+        .item .red {color: #FF6060;}
+        .item .blue {color: #0078ff;}
+
+        .item .right .txt {
+            font-size: 1.3rem;
+        }
+
+        .item .right .small-txt {
+            font-size: 0.6rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="detail-top">
+    <span class="tab left"><p class="selected" id="tab-total">历史累计</p></span>
+    <span class="tab right"><p class="" id="tab-redeemed">兑换记录</p></span>
+</div>
+
+<div class="wrapper">
+    <div class="scroller">
+        <div class="lists">
+            <!--<div class="item">-->
+            <!--<span class="left"><p class="title">2015-05-31 10:30</p><p class="des">来源：</p></span>-->
+            <!--<span class="right"><span class="txt">+5</span><span class="small-txt"> 分</span></span>-->
+            <!--</div>-->
+        </div>
+    </div>
+    <div class="load-more">
+        <span class="load-more-label">点击加载更多</span>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/zepto.min.js"></script>
+<script type="text/javascript" src="js/md5.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+
+var dataType = 0; //0历史累计 1兑换记录
+var gPageSize = 50;
+var page = 1;
+var canLoadMore = false;
+
+var publicObj = {
+    //isWeixin:isWeixin(),
+    //phoneType:getOS(),
+    domainname: "http://" + location.hostname,
+    apiUrl: publicApiHost + "/v2/api/web/point/detail",
+    userType: 1,
+    appVer: "1.0",
+    deviceType: "mobile_web",
+    timestamp: new Date().getTime(),
+    sessionKey: getUrlParameter("sessionKey")
+};
+
+
+var _r = publicObj.timestamp + "msfy_mslc_20160526_w" + publicObj.appVer + publicObj.deviceType + "web" + publicObj.appVer;
+publicObj.signature = hex_md5(_r);
+
+Zepto(function ($) {
+
+    $(".wrapper").css("border-top", "0px");
+
+    if (!publicObj.sessionKey) {
+        g_alert("缺少参数");
+        return;
+    }
+
+    var _params = {
+        sessionKey: publicObj.sessionKey,
+        userType: publicObj.userType,
+        appVer: publicObj.appVer,
+        deviceType: publicObj.deviceType,
+        timestamp: publicObj.timestamp,
+        signature: publicObj.signature,
+        deviceId: "wap",
+        osVer: getOS(),
+        page: 1,
+        pageSize: gPageSize,
+        type: 0
+    }
+
+    $(".detail-top").on("click", "#tab-total", function () {
+        var $tabTotal = $("#tab-total");
+        if (!$tabTotal.hasClass("selected")) {
+            $tabTotal.addClass("selected");
+            $("#tab-redeemed").removeClass("selected");
+
+            switchData(0);
+        }
+    })
+
+    $(".detail-top").on("click", "#tab-redeemed", function () {
+        var $tabRedeemed = $("#tab-redeemed");
+        if (!$tabRedeemed.hasClass("selected")) {
+            $("#tab-total").removeClass("selected");
+            $tabRedeemed.addClass("selected");
+
+            switchData(1);
+        }
+    })
+
+    //点击加载更多
+    $(".wrapper").on("click", ".load-more", function () {
+        loadData(dataType);
+    })
+
+    function loadData(type) {
+        g_loading();
+
+        _params.page = page;
+        _params.type = dataType;
+
+        $(".load-more-label").text("加载中...");
+        $(".wrapper").removeClass("nodata");
+//            setTimeout(function(){
+        $.ajax({
+                    type: "GET",
+                    url: publicObj.apiUrl,
+                    data: _params,
+                    dataType: 'json',
+                    timeout: 30000,
+                    success: function (data) {
+                        remove_loading();
+                        $(".load-more-label").text("点击加载更多");
+                        var errorCode = data.error;
+                        if (errorCode != 0) {
+                            g_alert("请求失败");
+                            if (page == 1) {
+                                $(".wrapper").addClass("nodata");
+                            }
+                        } else {
+                            if (data.data.records.length > 0) {
+                                $(".wrapper").css("border-top", "1px solid #e6e6e6");
+
+                                page++;
+                                appendData(data.data.records);
+
+                            } else {
+                                if (page == 1) {
+                                    g_alert("暂无数据");
+                                    $(".wrapper").addClass("nodata");
+                                }
+                            }
+
+                            if (data.data.records.length >= gPageSize) {
+                                setCanLoadMore(true);
+                            } else {
+                                setCanLoadMore(false);
+                            }
+                        }
+
+                    },
+                    error: function () {
+                        remove_loading();
+                        $(".load-more-label").text("点击加载更多");
+                        g_alert("网络错误，请稍后再试");
+                        if (page == 1) {
+                            $(".wrapper").addClass("nodata");
+                        }
+                    }
+                }
+        );
+//            },2000);
+    }
+
+    function appendData(data) {
+        if (data && data.length > 0) {
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                var point = item.point;
+                var unit = "个";
+                var value = point;
+
+                var reg = /1[3|4|5|7|8]\d{9}/;
+                var rs = reg.exec(item.comment);
+
+                var comment = item.comment;
+                if (rs) {
+                    var tel = rs[0];
+                    var index = rs.index;
+
+                    var s1 = '';
+                    if (index > 0) {
+                        s1 = item.comment.substr(0, index);
+                    }
+                    var s2 = '';
+                    if (item.comment.length > index + tel.length) {
+                        s2 = item.comment.substr(index + tel.length, item.comment.length - index - tel.length);
+                    }
+
+                    comment = s1 + '<a href="tel:' + tel + '">' + tel + '</a>' + s2;
+                }
+
+                var str = '<div class="item">';
+                str += '<span class="left">';
+                str += '<p class="title">' + item.time + '</p><p class="des">';
+                str += comment;
+                str += '</p></span>';
+                if (dataType == 0) {
+                    str +='<span class="right '+'red'+'">';
+                } else {
+                    str +='<span class="right '+'blue'+'">';
+                }
+                str +='<span class="txt">' + value + '</span><span class="small-txt">' + unit + '</span></span></div>';
+
+                $(".lists").append(str);
+            }
+        }
+    }
+
+    //切换tab
+    function switchData(type) {
+        dataType = type;
+        page = 1;
+        setCanLoadMore(false);
+
+        $(".lists").remove();
+        $(".scroller").append("<div class='lists'></div>");
+
+        $(".wrapper").css("border-top", "0px");
+        $(".wrapper").removeClass("nodata");
+
+        loadData(type);
+    }
+
+    //控制上拉加载状态
+    function setCanLoadMore(loadMore) {
+        canLoadMore = loadMore;
+
+        if (canLoadMore) {
+            $(".load-more").show();
+        } else {
+            $(".load-more").hide();
+        }
+    }
+
+    //初始化数据
+    setCanLoadMore(false);
+    switchData(dataType);
+})
+</script>
+</body>
+</html>
